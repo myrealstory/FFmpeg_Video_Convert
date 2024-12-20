@@ -88,8 +88,11 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
     formData.append("lang", lang);
 
     try {
-      const response = await fetch("/api/process-video", {
+      const response = await fetch(`https://myrealstory.github.io/${lang}/api/process-video`, {
         method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
         body: formData,
       });
 

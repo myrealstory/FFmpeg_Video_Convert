@@ -9,8 +9,16 @@ export const config = {
   matcher: ["/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)"],
 };
 
-export function middleware(req: NextRequest) {
+export function middleware(req: NextRequest, res:NextResponse) {
   let lng;
+  
+  res.headers.set("Access-Control-Allow-Origin", "*");
+  res.headers.set(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+
   if (req.cookies.has(cookieName))
     lng = acceptLanguage.get(req.cookies.get(cookieName)!.value);
   if (!lng) lng = acceptLanguage.get(req.headers.get("Accept-Language"));
