@@ -1,0 +1,22 @@
+{
+  "HomePage":{
+    "welcome":"Welcome",
+    "currentLang":"current Language was:",
+    "enterName":"Please enter your name"
+  },
+  "VideoEditor":{
+    "editVideo":"Edit Video",
+    "loading":"Loading FFmpeg ...",
+    "uploadVideo":"Upload Video",
+    "upload":"Upload",
+    "uploading":"Uploading",
+    "uploadSuccess":"Upload Success",
+    "uploadFailed":"Upload Failed",
+    "uploadAgain":"Upload Again",
+    "idle":"Idle",
+    "failToLoadFFmpeg":"Fail to load FFmpeg",
+    "requestUpload":"It doesn't have any video, please upload a video first",
+    "format":"MP4, MOV and AVI are supported",
+    "noFile":"No file chosen"
+  }
+}

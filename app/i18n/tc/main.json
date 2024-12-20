@@ -1,0 +1,23 @@
+{
+  "HomePage":{
+        "welcome":"歡迎",
+        "currentLang":"當前語言是：",
+        "enterName":"請輸入名字"
+    },
+    "VideoEditor": {
+    "editVideo": "編輯影片",
+    "loading": "正在加載 FFmpeg ...",
+    "uploadVideo": "上傳影片",
+    "upload": "上傳",
+    "uploading": "正在上傳",
+    "uploadSuccess": "上傳成功",
+    "uploadFailed": "上傳失敗",
+    "uploadAgain": "重新上傳",
+    "idle": "空閒",
+    "failToLoadFFmpeg": "無法加載 FFmpeg",
+    "requestUpload": "目前沒有影片，請先上傳影片",
+    "format": "支持 MP4、MOV 和 AVI 格式",
+    "noFile": "尚未選擇文件"
+}
+
+}

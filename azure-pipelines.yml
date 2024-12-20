@@ -1,0 +1,43 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: KOOCO Build Agent
+
+steps:
+# Use a Node.js version that Next.js 15 supports (e.g., 18.x)
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Use Node.js 18.x'
+
+# Install project dependencies
+- script: npm install
+  displayName: 'Install Dependencies'
+
+# Build the Next.js app (for SSR)
+- script: npm run build
+  displayName: 'Build Next.js'
+
+# Publish .next folder as build artifact
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '.next'
+    artifactName: 'nextServerBuild'
+  displayName: 'Publish .next Artifacts'
+
+# Publish package.json for deployment
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: 'package.json'
+    artifactName: 'packageJson'
+  displayName: 'Publish package.json'
+
+# Publish node_modules as a separate artifact
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: 'node_modules'
+    artifactName: 'nodeModules'
+  displayName: 'Publish node_modules'

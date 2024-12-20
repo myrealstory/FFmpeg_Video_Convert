@@ -1,0 +1,23 @@
+# Netlify configuration file
+[build]
+  command = "npm run build"       # Build 命令
+  publish = ".next"               # Next.js 輸出目錄 (自動識別)
+  environment = { NODE_ENV = "development" }
+
+# 設定不同的部署上下文
+[context.production]
+  environment = { NODE_ENV = "development" }
+
+[context.deploy-preview]
+  environment = { NODE_ENV = "development" }
+
+[context.branch-deploy]
+  environment = { NODE_ENV = "development" }
+
+[context.local.environment]
+  NODE_ENV = "development"
+
+# Plugins
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
