@@ -12,17 +12,15 @@ export const metadata: Metadata = {
 
 export type LayoutProps = {
   params: Promise<{ lang: LocaleKeysType }>;
-  children: React.ReactNode; 
-}
+  children: React.ReactNode;
+};
 
 export async function generateStaticParams() {
   const supportedLocales = ["en", "tc"];
   return supportedLocales.map((lang) => ({ lang }));
 }
 
-
 export default async function RootLayout({ children, params }: LayoutProps) {
-
   const { lang } = await params;
 
   if (!locales.includes(lang)) {
@@ -32,7 +30,14 @@ export default async function RootLayout({ children, params }: LayoutProps) {
   return (
     <html lang={lang}>
       <head>
-        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1"/>
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1, maximum-scale=1"
+        />
+        <link
+          href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css"
+          rel="stylesheet"
+        />
       </head>
       <body className={`${openSans.className} bg-white bg-opacity-30 relative`}>
         {children}
