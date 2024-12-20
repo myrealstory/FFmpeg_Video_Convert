@@ -6,7 +6,7 @@ import { IncomingForm, File as FormidableFile } from "formidable";
 import { Readable } from "stream";
 import { IncomingMessage } from "http";
 
-ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
+ffmpeg.setFfmpegPath(path.resolve("./bin/ffmpeg.exe"));
 
 type NodeRequest = Readable & IncomingMessage;
 

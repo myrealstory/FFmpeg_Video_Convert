@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Mark ffmpeg.exe as export-ignore
+bin/ffmpeg.exe export-ignore

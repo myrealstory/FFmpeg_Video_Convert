@@ -183,8 +183,8 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
         </div>
       )}
       {triggerBox && (
-        <div className="fixed bg-black/30 backdrop-blur-sm top-0 left-0 w-full h-full ">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[450px] h-auto w-full aspect-[9/16] border-white border-2 border-solid overflow-hidden">
+        <div className="fixed bg-black/30 backdrop-blur-sm top-0 left-0 w-full md:h-full h-[100dvh] ">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:max-w-[450px] md:h-auto h-full w-full aspect-[9/16] border-white border-2 border-solid overflow-hidden">
             <div className="h-full w-full bg-black/50 flex items-center justify-center duration-500 transform">
               <button
                 className="text-white text-2xl absolute -right-0 -top-0 z-[999]"
