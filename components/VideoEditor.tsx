@@ -4,8 +4,6 @@ import { useTranslation } from "@/app/i18n/client";
 import { useEffect, useRef, useState } from "react";
 import { OutputVideoState, VideoPlayerState } from "@/types/VideoEditor";
 
-import { FFmpeg } from "@ffmpeg/ffmpeg";
-
 // icons
 import { FaVideo } from "react-icons/fa6";
 import { IoMdCloseCircleOutline } from "react-icons/io";
@@ -38,37 +36,6 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
 
   //Ref
   const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  // useEffect(() => {
-  //     loadFFmpeg();
-  // },[]);
-
-  // const loadFFmpeg = async () => {
-  //     try{
-  //         setStatus(t("VideoEditor.loading"));
-  //         setError(null);
-
-  //         const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
-  //         const ffmpeg = new FFmpeg();
-  //         ffmpegRef.current = ffmpeg;
-
-  //         //add logging
-  //         ffmpeg.on("log",({message}) => {
-  //             console.log(`"log":${message}`);
-  //         });
-
-  //         await ffmpeg.load({
-  //             coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
-  //             wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
-  //         });
-
-  //         setStatus(t("VideoEditor.idle"));
-
-  //     } catch(error){
-  //         console.error(error);
-  //         setError(t("VideoEditor.failToLoadFFmpeg"));
-  //     }
-  // };
 
   useEffect(() => {
     console.log("Status updated:", status);
@@ -130,7 +97,8 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
         throw new Error("Failed to process video");
       }
 
-      const { videoURL, size, duration, covertedFileName } = await response.json();
+      const { videoURL, size, duration, covertedFileName } =
+        await response.json();
       console.log("videoURL:", videoURL);
       setOutputDetails({
         blobURL: `${videoURL}`,
@@ -161,6 +129,7 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
       console.error("Error during video processing:", error);
       setError("Failed to process video");
       setStatus("error");
+      setTriggerBox(false);
     }
   };
 
@@ -169,21 +138,21 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
       <button
         className="py-2 color-black/50 bg-white rounded-full w-full text-center flex items-center justify-center border-black border-solid border"
         onClick={() => {
-            setTriggerBox(true);
-            setOutputDetails({
-                blobURL: null,
-                duration: 0,
-                size: 0,
-                lastSize: 0,
-                originalFileType: "",
-                convertedFileType: "",
-              });
-            setVideoState({
-                isPlaying: false,
-                trimRange: [0, 0],
-                video: null,
-                currentTime: 0,
-              });
+          setTriggerBox(true);
+          setOutputDetails({
+            blobURL: null,
+            duration: 0,
+            size: 0,
+            lastSize: 0,
+            originalFileType: "",
+            convertedFileType: "",
+          });
+          setVideoState({
+            isPlaying: false,
+            trimRange: [0, 0],
+            video: null,
+            currentTime: 0,
+          });
         }}
       >
         <FaVideo className="text-lg mr-2" />
@@ -191,18 +160,26 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
       </button>
       {outputDetails.blobURL && (
         <div className="bg-black/20 p-4 text-left text-base color-black/70">
-          <p>after render URL :{outputDetails.blobURL}</p>
-          <p>Duration :{outputDetails.duration}</p>
-          <p>Size :{(outputDetails.size / (1024 * 1024)).toFixed(2)} MB</p>
-          <p>
-            Last Size :{(outputDetails.lastSize / (1024 * 1024)).toFixed(2)} MB
-          </p>
-          <p>lastFormat :{outputDetails.originalFileType}</p>
-          <p>current Format :{outputDetails.convertedFileType}</p>
-          <video
-            src={outputDetails.blobURL}
-            className="border border-black/30 border-solid mt-4 w-full h-full max-w-[480px] max-h-[854px]"
-          />
+          {error !== null && error.length > 0 ? (
+            <p>{error}</p>
+          ) : (
+            <div>
+              <p>after render URL :{outputDetails.blobURL}</p>
+              <p>Duration :{outputDetails.duration}</p>
+              <p>Size :{(outputDetails.size / (1024 * 1024)).toFixed(2)} MB</p>
+              <p>
+                Last Size :{(outputDetails.lastSize / (1024 * 1024)).toFixed(2)}{" "}
+                MB
+              </p>
+              <p>lastFormat :{outputDetails.originalFileType}</p>
+              <p>current Format :{outputDetails.convertedFileType}</p>
+              <video
+                src={outputDetails.blobURL}
+                className="border border-black/30 border-solid mt-4 w-full h-full max-w-[480px] max-h-[854px]"
+                controls
+              />
+            </div>
+          )}
         </div>
       )}
       {triggerBox && (

@@ -2,10 +2,13 @@ import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 import ffmpeg from "fluent-ffmpeg";
-import { IncomingForm } from "formidable";
+import { IncomingForm, File as FormidableFile } from "formidable";
 import { Readable } from "stream";
+import { IncomingMessage } from "http";
 
 ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
+
+type NodeRequest = Readable & IncomingMessage;
 
 // Disable body parsing (required for file uploads)
 export const config = {
@@ -14,9 +17,24 @@ export const config = {
   },
 };
 
+interface ParsedFromData {
+    fields: FormFields;
+    files: FormFiles;
+}
+
+interface FormFields {
+    [key:string]: string | string[];
+}
+
+interface FormFiles {
+    [key:string]: FormidableFile[];
+}
+
+
+
 
 // Convert a Fetch Request to a Node.js readable stream
-const convertRequestToStream = async (req: Request): Promise<Readable> => {
+const convertRequestToStream = async (req: Request): Promise<NodeRequest> => {
     const body = await req.arrayBuffer();
     const stream = new Readable();
     stream.push(Buffer.from(body));
@@ -32,13 +50,13 @@ const convertRequestToStream = async (req: Request): Promise<Readable> => {
         headers,
         method: req.method,
         url: req.url,
-    });
+    }) as NodeRequest;
   };
 
 // Parse form data with formidable
 const parseForm = async (
   req: Request
-): Promise<{ fields: Record<string, string>; files: any }> => {
+): Promise<ParsedFromData> => {
 
   const form = new IncomingForm({ keepExtensions: true });
   console.log("parseForm req:",form);
@@ -47,11 +65,12 @@ const parseForm = async (
   console.log("stream:",nodeReq);
 
   return new Promise((resolve, reject) => {
-    form.parse(nodeReq as any, (err, fields, files) => {
+    form.parse(nodeReq, (err, fields, files) => {
       if (err) reject(err);
       else {
         console.log("fields:",fields, "files:",files);
-        resolve({ fields, files });}
+        resolve({ fields, files } as ParsedFromData );
+        }
     });
   });
 };
@@ -78,7 +97,7 @@ export async function POST(
   
       // Validate file type and size
       const supportedTypes = ["video/mp4", "video/avi", "video/mov"];
-      if (!supportedTypes.includes(videoFile.mimetype)) {
+      if (!videoFile.mimetype || !supportedTypes.includes(videoFile.mimetype)) {
         return NextResponse.json({ error: "Unsupported file type" }, { status: 400 });
       }
   
@@ -96,14 +115,19 @@ export async function POST(
     console.log("outputPath:",outputPath);
 
     // Retrieve trim start and end from fields
-    const trimStart = parseFloat(fields.trimStart || "0"); // Default to 0
-    const trimEnd = parseFloat(fields.trimEnd || "0");
+    const trimStart = Array.isArray(fields.trimStart)
+  ? fields.trimStart[0]
+  : fields.trimStart; // Safely handle both `string` and `string[]`
+
+  const trimEnd = Array.isArray(fields.trimEnd)
+  ? fields.trimEnd[0]
+  : fields.trimEnd; // Safely handle both `string` and `string[]`
 
     if (trimEnd <= trimStart) {
         return NextResponse.json({ error: "Invalid trim range" }, { status: 400 });
     }
 
-    const duration = trimEnd - trimStart;
+    const duration = Number(trimEnd) - Number(trimStart);
     console.log("duration:",duration);
 
     // Process video with FFmpeg
