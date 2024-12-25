@@ -60,9 +60,6 @@ const nextConfig: NextConfig = {
     return config;
   },
 
-  experimental: {},
-
-
   // images: {
   //   loader: 'custom',
   //   loaderFile: './loader/image.js',

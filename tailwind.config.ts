@@ -5,7 +5,6 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,css,scss,mdx}", // 如果使用 Next.js App Router
-    "./styles/**/*.{css,scss}", // 包括自定義 CSS 文件        // If you use public HTML files
   ],
   theme: {
     extend: {
