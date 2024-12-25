@@ -44,10 +44,15 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
 
   //Ref
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const ffmpegRef = useRef<FFmpeg>(new FFmpeg());
+  const ffmpegRef = useRef<FFmpeg | null>(null);
+  const isBrowser = () => typeof window !== 'undefined';
 
   useEffect(() => {
-    load();
+    const initFFmpeg = async () => {
+      await load();
+    };
+  
+    initFFmpeg();
     console.log("Status updated:", status);
   }, [status]);
 
@@ -83,24 +88,62 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
     setVideoState({ ...videoState, trimRange: [0, videoDuration] });
   };
 
-  const load = async () => {
-    const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd'
-    const ffmpeg = ffmpegRef.current
-    // toBlobURL is used to bypass CORS issue, urls with the same
-    // domain can be used directly.
-    await ffmpeg.load({
-      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm')
+  const resetEditor = () => {
+    setTriggerBox(false);
+    setVideoState({
+      isPlaying: false,
+      trimRange: [0, 0],
+      video: null,
+      currentTime: 0,
     });
-  }
+    setOutputDetails({
+      blobURL: null,
+      duration: 0,
+      size: 0,
+      lastSize: 0,
+      originalFileType: '',
+      convertedFileType: '',
+      processingTime: '',
+    });
+    setVideoUpload(null);
+  };
+  
+
+  const load = async () => {
+    if (!isBrowser()) {
+      console.warn('FFmpeg is not supported in SSR');
+      return;
+    }
+  
+    try {
+      const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+      const ffmpeg = ffmpegRef.current;
+  
+      if (!ffmpeg) {
+        console.error('FFmpeg instance is not initialized');
+        return;
+      }
+  
+      // 加載 FFmpeg 所需的核心文件
+      await ffmpeg.load({
+        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+      });
+  
+      console.log('FFmpeg loaded successfully');
+    } catch (error) {
+      console.error('Error loading FFmpeg:', error);
+      setError('Failed to load FFmpeg. Please try again.');
+    }
+  };
 
   const handleResizeAndUpload = async () => {
-    const ffmpeg =  ffmpegRef.current;
-    if (!videoUpload || videoRef.current === null || !(videoRef.current instanceof HTMLVideoElement)) {
+    if (!videoUpload || videoRef.current === null || !(videoRef.current instanceof HTMLVideoElement) || ffmpegRef.current === null) {
       setError(t("VideoEditor.noFile"));
       setStatus("error");
       return;
     }
+    const ffmpeg =  ffmpegRef.current;
     const [startTime, endTime] = videoState.trimRange;
     const duration = endTime - startTime;
     if (duration <= 0) {
@@ -365,25 +408,7 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
       <div className="relative w-full flex items-center gap-4">
         <button
           className="py-2 color-black/50 bg-white rounded-full w-auto text-center flex items-center justify-center border-black border-solid border px-6 gap-4"
-          onClick={() => {
-            setTriggerBox(true);
-            setStatus("idle");
-            setOutputDetails({
-              blobURL: null,
-              duration: 0,
-              size: 0,
-              lastSize: 0,
-              originalFileType: "",
-              convertedFileType: "",
-              processingTime: "",
-            });
-            setVideoState({
-              isPlaying: false,
-              trimRange: [0, 0],
-              video: null,
-              currentTime: 0,
-            });
-          }}
+          onClick={resetEditor}
         >
           <FaVideo className="text-base" />
           {t("VideoEditor.editVideo")}
@@ -485,25 +510,7 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
             <div className="h-full w-full bg-black/50 flex items-center justify-center duration-500 transform">
               <button
                 className="text-white text-2xl absolute -right-0 -top-0 z-[999]"
-                onClick={() => {
-                  setTriggerBox(false);
-                  setVideoState({
-                    isPlaying: false,
-                    trimRange: [0, 0],
-                    video: null,
-                    currentTime: 0,
-                  });
-                  setOutputDetails({
-                    blobURL: null,
-                    duration: 0,
-                    size: 0,
-                    lastSize: 0,
-                    originalFileType: "",
-                    convertedFileType: "",
-                    processingTime: "",
-                  });
-                  setVideoUpload(null);
-                }}
+                onClick={resetEditor}
               >
                 <IoMdCloseCircleOutline />
               </button>
@@ -559,40 +566,30 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
         <div className="w-full h-[700px] overflow-y-auto">
           <Image 
             src={SampleImage}
-            width="0"
-            height="0"
             layout="responsive"
             className="w-full h-auto object-contain"
             alt="sampleImage1"
           />
           <Image 
             src={SampleImage}
-            width="0"
-            height="0"
             layout="responsive"
             className="w-full h-auto object-contain"
             alt="sampleImage1"
           />
           <Image 
             src={SampleImage}
-            width="0"
-            height="0"
             layout="responsive"
             className="w-full h-auto object-contain"
             alt="sampleImage1"
           />
           <Image 
             src={SampleImage}
-            width="0"
-            height="0"
             layout="responsive"
             className="w-full h-auto object-contain"
             alt="sampleImage1"
           />
           <Image 
             src={SampleImage}
-            width="0"
-            height="0"
             layout="responsive"
             className="w-full h-auto object-contain"
             alt="sampleImage1"

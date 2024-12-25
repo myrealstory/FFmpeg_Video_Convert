@@ -34,10 +34,6 @@ export default async function RootLayout({ children, params }: LayoutProps) {
           name="viewport"
           content="width=device-width,initial-scale=1, maximum-scale=1"
         />
-        <link
-          href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css"
-          rel="stylesheet"
-        />
       </head>
       <body className={`${openSans.className} bg-white bg-opacity-30 relative`}>
         {children}
