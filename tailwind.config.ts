@@ -3,6 +3,9 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: ["./src/**/*.{js,ts,tsx,jsx}"],
+  safelist: [
+    "flex","grid","mx-auto",
+  ],
   theme: {
     extend: {
       colors: {
