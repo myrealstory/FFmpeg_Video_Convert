@@ -2,9 +2,9 @@ import type { Config } from "tailwindcss";
 
 export default {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx}", // 如果使用 Next.js App Router
+    "./pages/**/*.{html,js,ts,jsx,tsx}",
+    "./components/**/*.{html,js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{html,js,ts,jsx,tsx}", // 如果使用 Next.js App Router
   ],
   theme: {
     extend: {
