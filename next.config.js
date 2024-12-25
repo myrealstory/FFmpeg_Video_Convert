@@ -1,6 +1,6 @@
 
 const nextConfig = {
-  output:"export",
+  output:"standalone",
   reactStrictMode: true,
   compress: true,
   // async headers() {
