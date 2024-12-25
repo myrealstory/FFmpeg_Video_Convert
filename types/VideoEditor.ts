@@ -12,4 +12,5 @@ export interface OutputVideoState {
     lastSize: number;
     originalFileType: string;
     convertedFileType: string;
+    processingTime: string;
 }

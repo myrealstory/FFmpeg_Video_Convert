@@ -2,10 +2,10 @@ import type { Config } from "tailwindcss";
 
 export default {
   content: [
-    './app/**/*.{js,ts,jsx,tsx}', // For Next.js app directory
-    './components/**/*.{js,ts,jsx,tsx}',
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './public/**/*.html',         // If you use public HTML files
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,css,scss,mdx}", // 如果使用 Next.js App Router
+    "./styles/**/*.{css,scss}", // 包括自定義 CSS 文件        // If you use public HTML files
   ],
   theme: {
     extend: {

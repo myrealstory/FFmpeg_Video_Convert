@@ -4,7 +4,35 @@ const nextConfig: NextConfig = {
   output:"standalone",
   reactStrictMode: true,
   compress: true,
-  swcMinify: false,
+  // async headers() {
+  //   return [
+  //     {
+  //       source: "/(.*)",
+  //       headers: [
+  //         {
+  //           key: "Access-Control-Allow-Methods",
+  //           value: "GET, POST, PUT, DELETE",
+  //         },
+  //         {
+  //           key: "Access-Control-Allow-Headers",
+  //           value: "Origin, X-Requested-With, Content-Type, Accept",
+  //         },
+  //         {
+  //           key: "X-XSS-Protection",
+  //           value: "1; mode=block",
+  //         },
+  //         {
+  //           key: "Access-Control-Allow-Origin",
+  //           value: "*",
+  //         },
+  //         {
+  //           key: "Content-Security-Policy",
+  //           value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; media-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'; prefetch-src 'self'; upgrade-insecure-requests; block-all-mixed-content; reflected-xss block; referrer no-referrer; require-sri-for script style; report-uri https://example.report-uri.com/r/d/csp/enforce;",
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // },
 
    // 處理 FFmpeg 和 Web Worker 問題
    webpack: (config, { isServer }) => {
@@ -49,7 +77,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/',
-        destination: '/zh',
+        destination: '/tc',
         permanent: true
       }
     ]

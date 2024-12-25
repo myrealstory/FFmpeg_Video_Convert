@@ -9,15 +9,8 @@ export const config = {
   matcher: ["/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)"],
 };
 
-export function middleware(req: NextRequest, res:NextResponse) {
+export function middleware(req: NextRequest) {
   let lng;
-  
-  res.headers.set("Access-Control-Allow-Origin", "*");
-  res.headers.set(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 
   if (req.cookies.has(cookieName))
     lng = acceptLanguage.get(req.cookies.get(cookieName)!.value);
@@ -31,10 +24,12 @@ const alreadyHasLocale = locales.some((loc: LocaleKeysType) =>
   pathname.startsWith(`/${loc}`)
 );
 
+
+// 5. 如果沒有語言代碼且路徑不屬於系統文件，重導向到帶語言的 URL
 if (!alreadyHasLocale && !pathname.startsWith("/_next")) {
-  return NextResponse.redirect(
-    new URL(`/${lng}${pathname}`, req.url)
-  );
+  const newUrl = new URL(`/${lng}${pathname}`, req.url);
+  // 防止語言重複加入
+  return NextResponse.redirect(newUrl);
 }
 
   if (req.headers.has("referer")) {
