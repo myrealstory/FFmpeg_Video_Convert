@@ -4,7 +4,7 @@ export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,css,scss,mdx}", // 如果使用 Next.js App Router
+    "./app/**/*.{js,ts,jsx,tsx}", // 如果使用 Next.js App Router
   ],
   theme: {
     extend: {
