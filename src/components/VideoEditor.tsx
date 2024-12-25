@@ -1,8 +1,8 @@
 "use client";
-import { LocaleKeysType } from "@/i18n";
-import { useTranslation } from "@/i18n/client";
+import { LocaleKeysType } from "../app/i18n";
+import { useTranslation } from "../app/i18n/client";
 import { useEffect, useRef, useState } from "react";
-import { OutputVideoState, VideoPlayerState } from "@/types/VideoEditor";
+import { OutputVideoState, VideoPlayerState } from "../types/VideoEditor";
 import { FFmpeg } from '@ffmpeg/ffmpeg'
 import { fetchFile, toBlobURL } from '@ffmpeg/util'
 import Image from "next/image";

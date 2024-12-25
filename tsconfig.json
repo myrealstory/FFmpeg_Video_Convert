@@ -19,7 +19,7 @@
     ],
     "paths": {
       "@/*": [
-        "./app/*"
+        "./src/app/*"
       ],
       "@/style/*": [
         "./style/*"
@@ -28,10 +28,10 @@
         "./images/*"
       ],
       "@/components/*": [
-        "./components/*"
+        "./src/components/*"
       ],
       "@/types/*": [
-        "./types/*"
+        "./src/types/*"
       ],
       "@/constants/*": [
         "./constants/*"

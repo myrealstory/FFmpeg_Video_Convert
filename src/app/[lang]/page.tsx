@@ -1,7 +1,7 @@
 import { LocaleKeysType, useTranslation } from "../i18n";
 import { notFound } from "next/navigation";
 import { InputBox } from "./InputBox";
-import { VideoEditor } from "@/components/VideoEditor";
+import { VideoEditor } from "../../components/VideoEditor";
 
 export type PageProps = {
   params: Promise<{
