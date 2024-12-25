@@ -117,12 +117,10 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
   
     try {
       const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+      if(ffmpegRef.current === null) ffmpegRef.current = new FFmpeg();
+      
       const ffmpeg = ffmpegRef.current;
   
-      if (!ffmpeg) {
-        console.error('FFmpeg instance is not initialized');
-        return;
-      }
   
       // 加載 FFmpeg 所需的核心文件
       await ffmpeg.load({
