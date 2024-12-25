@@ -1,8 +1,7 @@
 {
   "scripts": {
     "dev": "next dev ",
-    "build": "next build NODE_ENV=production",
-    "local_build": "next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watchAll"
