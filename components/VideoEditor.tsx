@@ -1,6 +1,6 @@
 "use client";
-import { LocaleKeysType } from "@/app/i18n";
-import { useTranslation } from "@/app/i18n/client";
+import { LocaleKeysType } from "@/i18n";
+import { useTranslation } from "@/i18n/client";
 import { useEffect, useRef, useState } from "react";
 import { OutputVideoState, VideoPlayerState } from "@/types/VideoEditor";
 import { FFmpeg } from '@ffmpeg/ffmpeg'
@@ -78,7 +78,7 @@ export const VideoEditor = ({ lang }: { lang: LocaleKeysType }) => {
     } else {
       videoRef.current.play();
     }
-    setVideoState((prev) => ({ ...prev, isPlaying: !prev.isPlaying }));
+    setVideoState((prev: VideoPlayerState) => ({ ...prev, isPlaying: !prev.isPlaying }));
   };
 
   const handleLoadMetadata = () => {

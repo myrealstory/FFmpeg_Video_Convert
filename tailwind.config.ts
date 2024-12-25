@@ -1,10 +1,11 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   content: [
-    "./pages/**/*.{html,js,ts,jsx,tsx}",
-    "./components/**/*.{html,js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{html,js,ts,jsx,tsx}", // 如果使用 Next.js App Router
+    "./app/**/*.{js,ts,jsx,tsx,mdx}", // 包括動態路由的所有文件
+    "./pages/**/*.{js,ts,jsx,tsx}",  // 傳統 Pages Router 的文件
+    "./components/**/*.{js,ts,jsx,tsx}", // 組件文件
+    "./styles/**/*.{css,scss}",      // 自定義樣式文件
   ],
   theme: {
     extend: {
@@ -17,4 +18,6 @@ export default {
     },
   },
   plugins: [],
-} satisfies Config;
+};
+
+export default config;

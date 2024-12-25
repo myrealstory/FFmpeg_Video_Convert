@@ -13,18 +13,39 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "paths": {
+      "@/*": [
+        "./app/*"
+      ],
+      "@/style/*": [
+        "./style/*"
+      ],
+      "@/images/*": [
+        "./images/*"
+      ],
+      "@/components/*": [
+        "./components/*"
+      ],
+      "@/types/*": [
+        "./types/*"
+      ],
+      "@/constants/*": [
+        "./constants/*"
+      ],
+      "@/redux/*": [
+        "./redux/*"
+      ],
+      "@/public/*": [
+        "./public/*"
+      ]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": ["./*"],
-      "@/public/*": [
-        "./public/*"
-      ]
-    }
+    ] // Remove this extra closing square bracket
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts",
+  "next.config.js"],
   "exclude": ["node_modules"]
 }
